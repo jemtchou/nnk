@@ -1,0 +1,719 @@
+#include"NNKDetectorConstruction.hh"
+#include"He3_SD.hh" 
+#include<G4NistManager.hh>
+#include<G4Box.hh>
+#include<G4Tubs.hh>
+#include<G4LogicalVolume.hh>
+#include<G4PVPlacement.hh>
+#include<G4SDManager.hh>
+#include<G4VisAttributes.hh>
+#include "G4SystemOfUnits.hh"
+#include "G4PhysicalConstants.hh"
+#include "G4RunManager.hh"
+#include "NNKDetectorMessenger.hh"
+
+using namespace std;
+
+
+NNKDetectorConstruction::NNKDetectorConstruction(int geo)
+{
+  geometry = geo;
+  detectorMessenger = new NNKDetectorMessenger(this);
+}
+
+NNKDetectorConstruction::~NNKDetectorConstruction()
+{
+}
+
+void NNKDetectorConstruction::SetGeometryConfiguration(G4int conf)
+{
+  G4cout << "Set geometry configuration " << conf << G4endl;
+  geometry = conf; 
+ 
+  if(geometry<0 || geometry>16)
+    G4Exception("NGKDetectorConstruction","Wrong Layer Geometry",RunMustBeAborted,"Please choose correct rock material");
+
+  Construct();
+  
+  G4RunManager::GetRunManager()->GeometryHasBeenModified();
+}
+
+
+G4VPhysicalVolume* NNKDetectorConstruction::Construct()
+{
+  // --- materials ---
+
+  G4NistManager* man = G4NistManager::Instance();
+  H=man->FindOrBuildElement("H");
+  B=man->FindOrBuildElement("B");
+  C=man->FindOrBuildElement("C");
+
+  Li=man->FindOrBuildElement("Li");
+  Cd=man->FindOrBuildElement("Cd");
+  Ba=man->FindOrBuildElement("Ba");
+  Er=man->FindOrBuildElement("Er");
+  Th=man->FindOrBuildElement("Th");
+  U=man->FindOrBuildElement("U");
+
+  O=man->FindOrBuildElement("O");
+  N=man->FindOrBuildElement("N");
+  Na=man->FindOrBuildElement("Na");
+  Mg=man->FindOrBuildElement("Mg");
+  Al=man->FindOrBuildElement("Al");
+  Si=man->FindOrBuildElement("Si");
+  P=man->FindOrBuildElement("P");
+  S=man->FindOrBuildElement("S");
+  Cl=man->FindOrBuildElement("Cl");
+  K=man->FindOrBuildElement("K");
+  Ca=man->FindOrBuildElement("Ca");
+  Ti=man->FindOrBuildElement("Ti");
+  Cr=man->FindOrBuildElement("Cr");
+  Mn=man->FindOrBuildElement("Mn");	
+  Fe=man->FindOrBuildElement("Fe");
+  Ni=man->FindOrBuildElement("Ni");
+  Cu=man->FindOrBuildElement("Cu");
+  Zn=man->FindOrBuildElement("Zn");
+  Ge=man->FindOrBuildElement("Ge");
+  Sm=man->FindOrBuildElement("Sm");
+  Eu=man->FindOrBuildElement("Eu");
+  Gd=man->FindOrBuildElement("Gd");
+  W=man->FindOrBuildElement("W");
+  Pb=man->FindOrBuildElement("Pb");
+  Bi=man->FindOrBuildElement("Bi");
+	
+
+  G4cout << "Geometry configuration " << geometry << G4endl;
+
+
+  if(geometry==0){
+   mRock = G4NistManager::Instance()->FindOrBuildMaterial("G4_WATER");
+  }
+
+  // rock
+  if(geometry==1){
+  mRock = new G4Material("mRock", 2.65*g/cm3, 25); // Pirite	0	W,%	0	Rhob	2.65
+  mRock->AddElement(Na, 4.622E-01*perCent);
+  mRock->AddElement(Mg, 6.205E-01*perCent);
+  mRock->AddElement(Al, 5.891E+00*perCent);
+  mRock->AddElement(Si, 3.839E+01*perCent);
+  mRock->AddElement(K , 1.882E+00*perCent);
+  mRock->AddElement(Ca, 1.219E+00*perCent);
+  mRock->AddElement(Ti, 3.962E-01*perCent);
+  mRock->AddElement(Mn, 6.756E-03*perCent);
+  mRock->AddElement(P , 1.306E-01*perCent);
+  mRock->AddElement(O , 5.100E+01*perCent);
+  mRock->AddElement(Fe, 0.000E+00*perCent);
+  mRock->AddElement(S , 0.000E+00*perCent);
+  mRock->AddElement(C , 0.000E+00*perCent);
+  mRock->AddElement(H , 0.000E+00*perCent);
+  mRock->AddElement(N , 0.000E+00*perCent);
+  mRock->AddElement(Li, 0.000E+00*perCent);
+  mRock->AddElement(B , 0.000E+00*perCent);
+  mRock->AddElement(Cd, 0.000E+00*perCent);
+  mRock->AddElement(Ba, 0.000E+00*perCent);
+  mRock->AddElement(Sm, 0.000E+00*perCent);
+  mRock->AddElement(Eu, 0.000E+00*perCent);
+  mRock->AddElement(Gd, 0.000E+00*perCent);
+  mRock->AddElement(Er, 0.000E+00*perCent);
+  mRock->AddElement(Th, 0.000E+00*perCent);
+  mRock->AddElement(U , 0.000E+00*perCent);
+  }
+  
+  if(geometry==2){
+    mRock = new G4Material("mRock", 2.71*g/cm3, 25); // Pirite	0.05	W,%	0	Rhob	2.7067283
+    mRock->AddElement(Na, 4.416E-01*perCent);
+    mRock->AddElement(Mg, 5.928E-01*perCent);
+    mRock->AddElement(Al, 5.628E+00*perCent);
+    mRock->AddElement(Si, 3.668E+01*perCent);
+    mRock->AddElement(K , 1.798E+00*perCent);
+    mRock->AddElement(Ca, 1.165E+00*perCent);
+    mRock->AddElement(Ti, 3.786E-01*perCent);
+    mRock->AddElement(Mn, 6.455E-03*perCent);
+    mRock->AddElement(P , 1.247E-01*perCent);
+    mRock->AddElement(O , 4.872E+01*perCent);
+    mRock->AddElement(Fe, 1.999E+00*perCent);
+    mRock->AddElement(S , 2.460E+00*perCent);
+    mRock->AddElement(C , 0.000E+00*perCent);
+    mRock->AddElement(H , 0.000E+00*perCent);
+    mRock->AddElement(N , 0.000E+00*perCent);
+    mRock->AddElement(Li, 0.000E+00*perCent);
+    mRock->AddElement(B , 0.000E+00*perCent);
+    mRock->AddElement(Cd, 0.000E+00*perCent);
+    mRock->AddElement(Ba, 0.000E+00*perCent);
+    mRock->AddElement(Sm, 0.000E+00*perCent);
+    mRock->AddElement(Eu, 0.000E+00*perCent);
+    mRock->AddElement(Gd, 0.000E+00*perCent);
+    mRock->AddElement(Er, 0.000E+00*perCent);
+    mRock->AddElement(Th, 0.000E+00*perCent);
+    mRock->AddElement(U , 0.000E+00*perCent);
+   }
+
+  if(geometry==3){
+    mRock = new G4Material("mRock", 2.77*g/cm3, 25); // Pirite	0.1	W,%	0	Rhob	2.766631468
+    mRock->AddElement(Na, 4.208E-01*perCent);
+    mRock->AddElement(Mg, 5.649E-01*perCent);
+    mRock->AddElement(Al, 5.362E+00*perCent);
+    mRock->AddElement(Si, 3.495E+01*perCent);
+    mRock->AddElement(K , 1.713E+00*perCent);
+    mRock->AddElement(Ca, 1.110E+00*perCent);
+    mRock->AddElement(Ti, 3.607E-01*perCent);
+    mRock->AddElement(Mn, 6.150E-03*perCent);
+    mRock->AddElement(P , 1.189E-01*perCent);
+    mRock->AddElement(O , 4.642E+01*perCent);
+    mRock->AddElement(Fe, 4.021E+00*perCent);
+    mRock->AddElement(S , 4.949E+00*perCent);
+    mRock->AddElement(C , 0.000E+00*perCent);
+    mRock->AddElement(H , 0.000E+00*perCent);
+    mRock->AddElement(N , 0.000E+00*perCent);
+    mRock->AddElement(Li, 0.000E+00*perCent);
+    mRock->AddElement(B , 0.000E+00*perCent);
+    mRock->AddElement(Cd, 0.000E+00*perCent);
+    mRock->AddElement(Ba, 0.000E+00*perCent);
+    mRock->AddElement(Sm, 0.000E+00*perCent);
+    mRock->AddElement(Eu, 0.000E+00*perCent);
+    mRock->AddElement(Gd, 0.000E+00*perCent);
+    mRock->AddElement(Er, 0.000E+00*perCent);
+    mRock->AddElement(Th, 0.000E+00*perCent);
+    mRock->AddElement(U , 0.000E+00*perCent);
+    }
+
+  if(geometry==4){
+    mRock = new G4Material("mRock", 2.83*g/cm3, 25); // Pirite	0.15	W,%	0	Rhob	2.829983705
+    mRock->AddElement(Na, 3.997E-01*perCent);
+    mRock->AddElement(Mg, 5.365E-01*perCent);
+    mRock->AddElement(Al, 5.094E+00*perCent);
+    mRock->AddElement(Si, 3.320E+01*perCent);
+    mRock->AddElement(K , 1.627E+00*perCent);
+    mRock->AddElement(Ca, 1.054E+00*perCent);
+    mRock->AddElement(Ti, 3.426E-01*perCent);
+    mRock->AddElement(Mn, 5.842E-03*perCent);
+    mRock->AddElement(P , 1.129E-01*perCent);
+    mRock->AddElement(O , 4.410E+01*perCent);
+    mRock->AddElement(Fe, 6.066E+00*perCent);
+    mRock->AddElement(S , 7.466E+00*perCent);
+    mRock->AddElement(C , 0.000E+00*perCent);
+    mRock->AddElement(H , 0.000E+00*perCent);
+    mRock->AddElement(N , 0.000E+00*perCent);
+    mRock->AddElement(Li, 0.000E+00*perCent);
+    mRock->AddElement(B , 0.000E+00*perCent);
+    mRock->AddElement(Cd, 0.000E+00*perCent);
+    mRock->AddElement(Ba, 0.000E+00*perCent);
+    mRock->AddElement(Sm, 0.000E+00*perCent);
+    mRock->AddElement(Eu, 0.000E+00*perCent);
+    mRock->AddElement(Gd, 0.000E+00*perCent);
+    mRock->AddElement(Er, 0.000E+00*perCent);
+    mRock->AddElement(Th, 0.000E+00*perCent);
+    mRock->AddElement(U , 0.000E+00*perCent);
+    }
+
+  if(geometry==5){
+    mRock = new G4Material("mRock", 2.49*g/cm3, 25); // Pirite	0	W,%	10	Rhob	2.485
+    mRock->AddElement(Na, 4.436E-01*perCent);
+    mRock->AddElement(Mg, 5.955E-01*perCent);
+    mRock->AddElement(Al, 5.654E+00*perCent);
+    mRock->AddElement(Si, 3.685E+01*perCent);
+    mRock->AddElement(K , 1.806E+00*perCent);
+    mRock->AddElement(Ca, 1.170E+00*perCent);
+    mRock->AddElement(Ti, 3.803E-01*perCent);
+    mRock->AddElement(Mn, 6.485E-03*perCent);
+    mRock->AddElement(P , 1.253E-01*perCent);
+    mRock->AddElement(O , 4.923E+01*perCent);
+    mRock->AddElement(Fe, 0.000E+00*perCent);
+    mRock->AddElement(S , 6.036E-01*perCent);
+    mRock->AddElement(C , 2.817E+00*perCent);
+    mRock->AddElement(H , 2.414E-01*perCent);
+    mRock->AddElement(N , 4.024E-02*perCent);
+    mRock->AddElement(Li, 6.036E-01*perCent);
+    mRock->AddElement(B , 2.817E-01*perCent);
+    mRock->AddElement(Cd, 4.725E-04*perCent);
+    mRock->AddElement(Ba, 1.442E-03*perCent);
+    mRock->AddElement(Sm, 5.523E-04*perCent);
+    mRock->AddElement(Eu, 3.728E-02*perCent);
+    mRock->AddElement(Gd, 6.166E-05*perCent);
+    mRock->AddElement(Er, 1.654E-05*perCent);
+    mRock->AddElement(Th, 5.327E-05*perCent);
+    mRock->AddElement(U , 4.229E-05*perCent);
+   }
+
+
+  if(geometry==6){
+    mRock = new G4Material("mRock", 2.54*g/cm3, 25); // Pirite	0.05	W,%	10	Rhob	2.53846944
+    mRock->AddElement(Na, 4.233E-01*perCent);
+    mRock->AddElement(Mg, 5.683E-01*perCent);
+    mRock->AddElement(Al, 5.395E+00*perCent);
+    mRock->AddElement(Si, 3.516E+01*perCent);
+    mRock->AddElement(K , 1.723E+00*perCent);
+    mRock->AddElement(Ca, 1.117E+00*perCent);
+    mRock->AddElement(Ti, 3.629E-01*perCent);
+    mRock->AddElement(Mn, 6.188E-03*perCent);
+    mRock->AddElement(P , 1.196E-01*perCent);
+    mRock->AddElement(O , 4.698E+01*perCent);
+    mRock->AddElement(Fe, 2.009E+00*perCent);
+    mRock->AddElement(S , 3.064E+00*perCent);
+    mRock->AddElement(C , 2.758E+00*perCent);
+    mRock->AddElement(H , 2.364E-01*perCent);
+    mRock->AddElement(N , 3.939E-02*perCent);
+    mRock->AddElement(Li, 5.909E-01*perCent);
+    mRock->AddElement(B , 2.758E-01*perCent);
+    mRock->AddElement(Cd, 4.625E-04*perCent);
+    mRock->AddElement(Ba, 1.411E-03*perCent);
+    mRock->AddElement(Sm, 5.407E-04*perCent);
+    mRock->AddElement(Eu, 3.649E-02*perCent);
+    mRock->AddElement(Gd, 6.036E-05*perCent);
+    mRock->AddElement(Er, 1.620E-05*perCent);
+    mRock->AddElement(Th, 5.215E-05*perCent);
+    mRock->AddElement(U , 4.140E-05*perCent);
+    }
+
+  if(geometry==7){
+    mRock = new G4Material("mRock", 2.59*g/cm3, 25); // Pirite	0.1	W,%	10	Rhob	2.594931362
+    mRock->AddElement(Na, 4.027E-01*perCent);
+    mRock->AddElement(Mg, 5.407E-01*perCent);
+    mRock->AddElement(Al, 5.133E+00*perCent);
+    mRock->AddElement(Si, 3.345E+01*perCent);
+    mRock->AddElement(K , 1.640E+00*perCent);
+    mRock->AddElement(Ca, 1.062E+00*perCent);
+    mRock->AddElement(Ti, 3.452E-01*perCent);
+    mRock->AddElement(Mn, 5.887E-03*perCent);
+    mRock->AddElement(P , 1.138E-01*perCent);
+    mRock->AddElement(O , 4.471E+01*perCent);
+    mRock->AddElement(Fe, 4.041E+00*perCent);
+    mRock->AddElement(S , 5.551E+00*perCent);
+    mRock->AddElement(C , 2.698E+00*perCent);
+    mRock->AddElement(H , 2.312E-01*perCent);
+    mRock->AddElement(N , 3.854E-02*perCent);
+    mRock->AddElement(Li, 5.780E-01*perCent);
+    mRock->AddElement(B , 2.698E-01*perCent);
+    mRock->AddElement(Cd, 4.525E-04*perCent);
+    mRock->AddElement(Ba, 1.381E-03*perCent);
+    mRock->AddElement(Sm, 5.289E-04*perCent);
+    mRock->AddElement(Eu, 3.570E-02*perCent);
+    mRock->AddElement(Gd, 5.905E-05*perCent);
+    mRock->AddElement(Er, 1.584E-05*perCent);
+    mRock->AddElement(Th, 5.102E-05*perCent);
+    mRock->AddElement(U , 4.050E-05*perCent);
+    }
+
+  if(geometry==8){
+    mRock = new G4Material("mRock", 2.32*g/cm3, 25); // Pirite	0.15	W,%	10	Rhob	2.654644215
+    mRock->AddElement(Na, 3.820E-01*perCent);
+    mRock->AddElement(Mg, 5.128E-01*perCent);
+    mRock->AddElement(Al, 4.868E+00*perCent);
+    mRock->AddElement(Si, 3.173E+01*perCent);
+    mRock->AddElement(K , 1.555E+00*perCent);
+    mRock->AddElement(Ca, 1.008E+00*perCent);
+    mRock->AddElement(Ti, 3.274E-01*perCent);
+    mRock->AddElement(Mn, 5.583E-03*perCent);
+    mRock->AddElement(P , 1.079E-01*perCent);
+    mRock->AddElement(O , 4.241E+01*perCent);
+    mRock->AddElement(Fe, 6.095E+00*perCent);
+    mRock->AddElement(S , 8.067E+00*perCent);
+    mRock->AddElement(C , 2.637E+00*perCent);
+    mRock->AddElement(H , 2.260E-01*perCent);
+    mRock->AddElement(N , 3.767E-02*perCent);
+    mRock->AddElement(Li, 5.650E-01*perCent);
+    mRock->AddElement(B , 2.637E-01*perCent);
+    mRock->AddElement(Cd, 4.423E-04*perCent);
+    mRock->AddElement(Ba, 1.350E-03*perCent);
+    mRock->AddElement(Sm, 5.170E-04*perCent);
+    mRock->AddElement(Eu, 3.490E-02*perCent);
+    mRock->AddElement(Gd, 5.772E-05*perCent);
+    mRock->AddElement(Er, 1.549E-05*perCent);
+    mRock->AddElement(Th, 4.987E-05*perCent);
+    mRock->AddElement(U , 3.959E-05*perCent);
+    }
+
+  if(geometry==9){
+    mRock = new G4Material("mRock", 2.32*g/cm3, 25); // Pirite	0	W,%	20	Rhob	2.32
+    mRock->AddElement(Na, 4.224E-01*perCent);
+    mRock->AddElement(Mg, 5.670E-01*perCent);
+    mRock->AddElement(Al, 5.383E+00*perCent);
+    mRock->AddElement(Si, 3.508E+01*perCent);
+    mRock->AddElement(K , 1.720E+00*perCent);
+    mRock->AddElement(Ca, 1.114E+00*perCent);
+    mRock->AddElement(Ti, 3.621E-01*perCent);
+    mRock->AddElement(Mn, 6.174E-03*perCent);
+    mRock->AddElement(P , 1.193E-01*perCent);
+    mRock->AddElement(O , 4.720E+01*perCent);
+    mRock->AddElement(Fe, 0.000E+00*perCent);
+    mRock->AddElement(S , 1.293E+00*perCent);
+    mRock->AddElement(C , 6.034E+00*perCent);
+    mRock->AddElement(H , 5.172E-01*perCent);
+    mRock->AddElement(N , 8.621E-02*perCent);
+    mRock->AddElement(Li, 1.293E+00*perCent);
+    mRock->AddElement(B , 6.034E-01*perCent);
+    mRock->AddElement(Cd, 1.012E-03*perCent);
+    mRock->AddElement(Ba, 3.089E-03*perCent);
+    mRock->AddElement(Sm, 1.183E-03*perCent);
+    mRock->AddElement(Eu, 7.986E-02*perCent);
+    mRock->AddElement(Gd, 1.321E-04*perCent);
+    mRock->AddElement(Er, 3.544E-05*perCent);
+    mRock->AddElement(Th, 1.141E-04*perCent);
+    mRock->AddElement(U , 9.060E-05*perCent);
+    }
+
+  if(geometry==10){
+    mRock = new G4Material("mRock", 2.37*g/cm3, 25); // Pirite	0.05	W,%	20	Rhob	2.37021058
+    mRock->AddElement(Na, 4.024E-01*perCent);
+    mRock->AddElement(Mg, 5.402E-01*perCent);
+    mRock->AddElement(Al, 5.128E+00*perCent);
+    mRock->AddElement(Si, 3.342E+01*perCent);
+    mRock->AddElement(K , 1.638E+00*perCent);
+    mRock->AddElement(Ca, 1.061E+00*perCent);
+    mRock->AddElement(Ti, 3.449E-01*perCent);
+    mRock->AddElement(Mn, 5.882E-03*perCent);
+    mRock->AddElement(P , 1.137E-01*perCent);
+    mRock->AddElement(O , 4.499E+01*perCent);
+    mRock->AddElement(Fe, 2.020E+00*perCent);
+    mRock->AddElement(S , 3.752E+00*perCent);
+    mRock->AddElement(C , 5.907E+00*perCent);
+    mRock->AddElement(H , 5.063E-01*perCent);
+    mRock->AddElement(N , 8.438E-02*perCent);
+    mRock->AddElement(Li, 1.266E+00*perCent);
+    mRock->AddElement(B , 5.907E-01*perCent);
+    mRock->AddElement(Cd, 9.907E-04*perCent);
+    mRock->AddElement(Ba, 3.023E-03*perCent);
+    mRock->AddElement(Sm, 1.158E-03*perCent);
+    mRock->AddElement(Eu, 7.817E-02*perCent);
+    mRock->AddElement(Gd, 1.293E-04*perCent);
+    mRock->AddElement(Er, 3.469E-05*perCent);
+    mRock->AddElement(Th, 1.117E-04*perCent);
+    mRock->AddElement(U , 8.868E-05*perCent);
+    }
+
+  if(geometry==11){
+    mRock = new G4Material("mRock", 2.42*g/cm3, 25); // Pirite	0.1	W,%	20	Rhob	2.423231257
+    mRock->AddElement(Na, 3.822E-01*perCent);
+    mRock->AddElement(Mg, 5.131E-01*perCent);
+    mRock->AddElement(Al, 4.871E+00*perCent);
+    mRock->AddElement(Si, 3.175E+01*perCent);
+    mRock->AddElement(K , 1.556E+00*perCent);
+    mRock->AddElement(Ca, 1.008E+00*perCent);
+    mRock->AddElement(Ti, 3.276E-01*perCent);
+    mRock->AddElement(Mn, 5.586E-03*perCent);
+    mRock->AddElement(P , 1.080E-01*perCent);
+    mRock->AddElement(O , 4.274E+01*perCent);
+    mRock->AddElement(Fe, 4.063E+00*perCent);
+    mRock->AddElement(S , 6.239E+00*perCent);
+    mRock->AddElement(C , 5.777E+00*perCent);
+    mRock->AddElement(H , 4.952E-01*perCent);
+    mRock->AddElement(N , 8.253E-02*perCent);
+    mRock->AddElement(Li, 1.238E+00*perCent);
+    mRock->AddElement(B , 5.777E-01*perCent);
+    mRock->AddElement(Cd, 9.691E-04*perCent);
+    mRock->AddElement(Ba, 2.957E-03*perCent);
+    mRock->AddElement(Sm, 1.133E-03*perCent);
+    mRock->AddElement(Eu, 7.646E-02*perCent);
+    mRock->AddElement(Gd, 1.265E-04*perCent);
+    mRock->AddElement(Er, 3.393E-05*perCent);
+    mRock->AddElement(Th, 1.093E-04*perCent);
+    mRock->AddElement(U , 8.674E-05*perCent);
+    }
+
+  if(geometry==12){
+    mRock = new G4Material("mRock", 2.48*g/cm3, 25); // Pirite	0.15	W,%	20	Rhob	2.479304726
+    mRock->AddElement(Na, 3.617E-01*perCent);
+    mRock->AddElement(Mg, 4.856E-01*perCent);
+    mRock->AddElement(Al, 4.610E+00*perCent);
+    mRock->AddElement(Si, 3.005E+01*perCent);
+    mRock->AddElement(K , 1.473E+00*perCent);
+    mRock->AddElement(Ca, 9.542E-01*perCent);
+    mRock->AddElement(Ti, 3.101E-01*perCent);
+    mRock->AddElement(Mn, 5.288E-03*perCent);
+    mRock->AddElement(P , 1.022E-01*perCent);
+    mRock->AddElement(O , 4.048E+01*perCent);
+    mRock->AddElement(Fe, 6.128E+00*perCent);
+    mRock->AddElement(S , 8.753E+00*perCent);
+    mRock->AddElement(C , 5.647E+00*perCent);
+    mRock->AddElement(H , 4.840E-01*perCent);
+    mRock->AddElement(N , 8.067E-02*perCent);
+    mRock->AddElement(Li, 1.210E+00*perCent);
+    mRock->AddElement(B , 5.647E-01*perCent);
+    mRock->AddElement(Cd, 9.471E-04*perCent);
+    mRock->AddElement(Ba, 2.890E-03*perCent);
+    mRock->AddElement(Sm, 1.107E-03*perCent);
+    mRock->AddElement(Eu, 7.473E-02*perCent);
+    mRock->AddElement(Gd, 1.236E-04*perCent);
+    mRock->AddElement(Er, 3.316E-05*perCent);
+    mRock->AddElement(Th, 1.068E-04*perCent);
+    mRock->AddElement(U , 8.478E-05*perCent);
+    }
+
+    if(geometry==13){
+    mRock = new G4Material("mRock", 2.15*g/cm3, 25); // Pirite	0	W,%	30	Rhob	2.155
+    mRock->AddElement(Na, 3.979E-01*perCent);
+    mRock->AddElement(Mg, 5.341E-01*perCent);
+    mRock->AddElement(Al, 5.071E+00*perCent);
+    mRock->AddElement(Si, 3.305E+01*perCent);
+    mRock->AddElement(K , 1.620E+00*perCent);
+    mRock->AddElement(Ca, 1.050E+00*perCent);
+    mRock->AddElement(Ti, 3.411E-01*perCent);
+    mRock->AddElement(Mn, 5.816E-03*perCent);
+    mRock->AddElement(P , 1.124E-01*perCent);
+    mRock->AddElement(O , 4.487E+01*perCent);
+    mRock->AddElement(Fe, 0.000E+00*perCent);
+    mRock->AddElement(S , 2.088E+00*perCent);
+    mRock->AddElement(C , 9.745E+00*perCent);
+    mRock->AddElement(H , 8.353E-01*perCent);
+    mRock->AddElement(N , 1.392E-01*perCent);
+    mRock->AddElement(Li, 2.088E+00*perCent);
+    mRock->AddElement(B , 9.745E-01*perCent);
+    mRock->AddElement(Cd, 1.635E-03*perCent);
+    mRock->AddElement(Ba, 4.988E-03*perCent);
+    mRock->AddElement(Sm, 1.911E-03*perCent);
+    mRock->AddElement(Eu, 1.290E-01*perCent);
+    mRock->AddElement(Gd, 2.133E-04*perCent);
+    mRock->AddElement(Er, 5.723E-05*perCent);
+    mRock->AddElement(Th, 1.843E-04*perCent);
+    mRock->AddElement(U , 1.463E-04*perCent);
+    }
+
+    if(geometry==14){
+    mRock = new G4Material("mRock", 2.20*g/cm3, 25); // Pirite	0.05	W,%	30	Rhob	2.201951721
+    mRock->AddElement(Na, 3.783E-01*perCent);
+    mRock->AddElement(Mg, 5.078E-01*perCent);
+    mRock->AddElement(Al, 4.821E+00*perCent);
+    mRock->AddElement(Si, 3.142E+01*perCent);
+    mRock->AddElement(K , 1.540E+00*perCent);
+    mRock->AddElement(Ca, 9.979E-01*perCent);
+    mRock->AddElement(Ti, 3.243E-01*perCent);
+    mRock->AddElement(Mn, 5.529E-03*perCent);
+    mRock->AddElement(P , 1.069E-01*perCent);
+    mRock->AddElement(O , 4.269E+01*perCent);
+    mRock->AddElement(Fe, 2.034E+00*perCent);
+    mRock->AddElement(S , 4.547E+00*perCent);
+    mRock->AddElement(C , 9.537E+00*perCent);
+    mRock->AddElement(H , 8.175E-01*perCent);
+    mRock->AddElement(N , 1.362E-01*perCent);
+    mRock->AddElement(Li, 2.044E+00*perCent);
+    mRock->AddElement(B , 9.537E-01*perCent);
+    mRock->AddElement(Cd, 1.600E-03*perCent);
+    mRock->AddElement(Ba, 4.881E-03*perCent);
+    mRock->AddElement(Sm, 1.870E-03*perCent);
+    mRock->AddElement(Eu, 1.262E-01*perCent);
+    mRock->AddElement(Gd, 2.088E-04*perCent);
+    mRock->AddElement(Er, 5.601E-05*perCent);
+    mRock->AddElement(Th, 1.804E-04*perCent);
+    mRock->AddElement(U , 1.432E-04*perCent);
+    }
+
+    if(geometry==15){
+    mRock = new G4Material("mRock", 2.25*g/cm3, 25); // Pirite	0.1	W,%	30	Rhob	2.251531151
+    mRock->AddElement(Na, 3.585E-01*perCent);
+    mRock->AddElement(Mg, 4.812E-01*perCent);
+    mRock->AddElement(Al, 4.568E+00*perCent);
+    mRock->AddElement(Si, 2.978E+01*perCent);
+    mRock->AddElement(K , 1.459E+00*perCent);
+    mRock->AddElement(Ca, 9.456E-01*perCent);
+    mRock->AddElement(Ti, 3.073E-01*perCent);
+    mRock->AddElement(Mn, 5.240E-03*perCent);
+    mRock->AddElement(P , 1.013E-01*perCent);
+    mRock->AddElement(O , 4.048E+01*perCent);
+    mRock->AddElement(Fe, 4.089E+00*perCent);
+    mRock->AddElement(S , 7.031E+00*perCent);
+    mRock->AddElement(C , 9.327E+00*perCent);
+    mRock->AddElement(H , 7.995E-01*perCent);
+    mRock->AddElement(N , 1.332E-01*perCent);
+    mRock->AddElement(Li, 1.999E+00*perCent);
+    mRock->AddElement(B , 9.327E-01*perCent);
+    mRock->AddElement(Cd, 1.564E-03*perCent);
+    mRock->AddElement(Ba, 4.774E-03*perCent);
+    mRock->AddElement(Sm, 1.829E-03*perCent);
+    mRock->AddElement(Eu, 1.234E-01*perCent);
+    mRock->AddElement(Gd, 2.042E-04*perCent);
+    mRock->AddElement(Er, 5.478E-05*perCent);
+    mRock->AddElement(Th, 1.764E-04*perCent);
+    mRock->AddElement(U , 1.400E-04*perCent);
+    }
+
+    if(geometry==16){
+    mRock = new G4Material("mRock", 2.30*g/cm3, 25); // Pirite	0.15	W,%	30	Rhob	2.303965236
+    mRock->AddElement(Na, 3.385E-01*perCent);
+    mRock->AddElement(Mg, 4.543E-01*perCent);
+    mRock->AddElement(Al, 4.313E+00*perCent);
+    mRock->AddElement(Si, 2.811E+01*perCent);
+    mRock->AddElement(K , 1.378E+00*perCent);
+    mRock->AddElement(Ca, 8.928E-01*perCent);
+    mRock->AddElement(Ti, 2.901E-01*perCent);
+    mRock->AddElement(Mn, 4.947E-03*perCent);
+    mRock->AddElement(P , 9.560E-02*perCent);
+    mRock->AddElement(O , 3.825E+01*perCent);
+    mRock->AddElement(Fe, 6.167E+00*perCent);
+    mRock->AddElement(S , 9.543E+00*perCent);
+    mRock->AddElement(C , 9.115E+00*perCent);
+    mRock->AddElement(H , 7.813E-01*perCent);
+    mRock->AddElement(N , 1.302E-01*perCent);
+    mRock->AddElement(Li, 1.953E+00*perCent);
+    mRock->AddElement(B , 9.115E-01*perCent);
+    mRock->AddElement(Cd, 1.529E-03*perCent);
+    mRock->AddElement(Ba, 4.665E-03*perCent);
+    mRock->AddElement(Sm, 1.787E-03*perCent);
+    mRock->AddElement(Eu, 1.206E-01*perCent);
+    mRock->AddElement(Gd, 1.995E-04*perCent);
+    mRock->AddElement(Er, 5.353E-05*perCent);
+    mRock->AddElement(Th, 1.724E-04*perCent);
+    mRock->AddElement(U , 1.368E-04*perCent);
+    }
+
+
+  mSteel = new G4Material("mSteel", 26, 54.847*g/mole, 7.8*g/cm3); //?????
+ 
+  mWellWater = new G4Material("mWellWater", 1.00*g/cm3, 2); // ???? ???????
+  mWellWater->AddElement(H,11*perCent);
+  mWellWater->AddElement(O,89*perCent);
+ 
+  mAluminium = new G4Material("mAluminium", 13, 26.092*g/mole, 2.7*g/cm3); //????????
+ 
+  mStSteel = new G4Material("mStSteel", 7.8*g/cm3, 5); //??????????
+  mStSteel->AddElement(C,1.2*perCent);
+  mStSteel->AddElement(Cr,18.0*perCent);
+  mStSteel->AddElement(Ti,1.0*perCent);
+  mStSteel->AddElement(Fe,69.8*perCent);
+  mStSteel->AddElement(Ni,10.0*perCent);
+ 
+ 
+  mPolyamide = new G4Material("mPolyamide", 1.1*g/cm3, 4); //[-NH-(CH2)5-CO-] ????????
+  mPolyamide->AddElement(C,6);
+  mPolyamide->AddElement(N,1);
+  mPolyamide->AddElement(O,1);
+  mPolyamide->AddElement(H,11);
+ 
+ 
+  mCd = new G4Material("mCd", 48, 112*g/mole, 8.65*g/cm3);  //?????
+ 
+  mVacuum = new G4Material("mVacuum",1,1,universe_mean_density,kStateGas,0.1*kelvin, 1.e-19*pascal); // vacuum
+ 
+ 
+  // He3 counter
+  G4Isotope* izHe3 = new G4Isotope("izHe3",2, 3, 3);
+  G4Element* elHe3= new G4Element("He3", "He3",1);
+  elHe3->AddIsotope(izHe3, 100*perCent);
+  G4double density = 1 *mg/cm3;
+  G4double pressure = 5.*atmosphere;
+  G4double temperature = 300.*kelvin;
+  mDet = new G4Material("He3", density, 1, kStateGas, temperature, pressure);
+  mDet->AddElement(elHe3,1);
+ 
+  G4Tubs* sWorld = new G4Tubs("World", 0, 1001*mm, 1001*mm, 0, 360.*deg);
+  lWorld = new G4LogicalVolume( sWorld, mVacuum, "World", 0, 0, 0);
+  G4PVPlacement* pWorld = new G4PVPlacement(0, G4ThreeVector(), lWorld, "World",
+					    0, false, 0);      
+
+  // poroda (voda): cylinder h=100 D=200 d=4.45 
+  G4Tubs *solidRock = new G4Tubs ("solidRock", 0*mm, 1000*mm, 1000*mm, 0, 360*deg);
+  logicRock = new G4LogicalVolume (solidRock,mWellWater, "Rock");
+  new G4PVPlacement(0,G4ThreeVector(),logicRock, "Rock", lWorld, false, 0);
+  logicRock->SetVisAttributes(new G4VisAttributes(G4Colour::Brown()));
+ 
+  // voda v skvazhine: cylinder h=200 R=108 r=0 
+  G4Tubs *solidWell = new G4Tubs ("solidWell", 0*mm, 108*mm, 1000*mm, 0, 360*deg);
+  logicWell = new G4LogicalVolume (solidWell, mWellWater, "logicWell");
+  new G4PVPlacement(0,G4ThreeVector(), logicWell, "WellWater", logicRock, false, 0);
+  logicWell->SetVisAttributes(new G4VisAttributes(G4Colour::Grey()));
+ 
+   G4double shifty = 69.9*mm; // sonde close to the well wall
+
+  // 1: cylinder h=126 r=0 R=15
+  G4Tubs *solid1 = new G4Tubs ("C1", 0*mm, 15*mm, 63*mm, 0, 360*deg);
+  G4LogicalVolume *logic1 = new G4LogicalVolume (solid1,mPolyamide, "logic1");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,99*mm),logic1, "phys1", logicWell, false, 0);
+  logic1->SetVisAttributes(new G4VisAttributes(G4Colour::Blue()));
+ 
+  // 2: cylinder h=126 r=15 R=29
+  G4Tubs *solid2 = new G4Tubs ("C2", 15*mm, 29*mm, 63*mm, 0, 360*deg);
+  G4LogicalVolume *logic2 = new G4LogicalVolume (solid2, mStSteel, "logic2");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,99*mm),logic2, "phys2", logicWell, false, 0);
+  logic2->SetVisAttributes(new G4VisAttributes(G4Colour::Black()));
+ 
+  // 3: cylinder h=1000 r=29 R=38 
+  G4Tubs *solid3 = new G4Tubs ("C3", 29*mm, 38*mm, 500*mm, 0, 360*deg);
+  G4LogicalVolume *logic3 = new G4LogicalVolume (solid3, mStSteel, "logic3");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,500*mm),logic3, "phys3", logicWell, false, 0);
+  logic3->SetVisAttributes(new G4VisAttributes(G4Colour::Black()));
+ 
+  // 4: cylinder h=94 r=0 R=29 
+  G4Tubs *solid4 = new G4Tubs ("C4", 0*mm, 29*mm, 47*mm, 0, 360*deg);
+  G4LogicalVolume *logic4 = new G4LogicalVolume (solid4, mPolyamide, "logic4");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,209*mm),logic4, "phys4", logicWell, false, 0);
+  logic4->SetVisAttributes(new G4VisAttributes(G4Colour::Magenta()));
+ 
+  // 5: Cadmium cylinder h=1 r=0 R=19  
+  G4Tubs *solid5 = new G4Tubs ("C5", 0*mm, 19*mm, 0.5*mm, 0, 360*deg);
+  G4LogicalVolume *logic5 = new G4LogicalVolume (solid5,mCd, "logic5");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,256.5*mm),logic5, "phys5", logicWell, false, 0);
+  logic5->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
+ 
+  // 6: cylinder h=16 r=19 R=29 
+  G4Tubs *solid6 = new G4Tubs ("C6", 19*mm, 29*mm, 8*mm, 0, 360*deg);
+  G4LogicalVolume *logic6 = new G4LogicalVolume (solid6,mPolyamide, "logic6");
+   new G4PVPlacement(0,G4ThreeVector(0,shifty,264*mm),logic6, "phys6", logicWell, false, 0);
+  logic6->SetVisAttributes(new G4VisAttributes(G4Colour::Magenta()));
+ 
+  // 7: cylinder h=3 r=0 R=18 
+  G4Tubs *solid7= new G4Tubs ("C7", 0*mm, 18*mm, 1.5*mm, 0, 360*deg);
+  G4LogicalVolume *logic7 = new G4LogicalVolume (solid7,mAluminium, "logic7");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,258.5*mm),logic7, "phys7", logicWell, false, 0);
+  logic7->SetVisAttributes(new G4VisAttributes(G4Colour::Green()));
+ 
+  // 8: Cadmium cylinder h=15 r=18 R=19 
+  G4Tubs *solid8 = new G4Tubs ("C8", 18*mm, 19*mm, 7.5*mm, 0, 360*deg);
+  G4LogicalVolume *logic8 = new G4LogicalVolume (solid8, mCd, "logic8");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,264.5*mm),logic8, "phys8", logicWell, false, 0);
+  logic8->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
+ 
+  // 9: cylinder h=120 r=0 R=15  Detector1
+  G4Tubs *solid9 = new G4Tubs ("C9", 0*mm, 15*mm, 60*mm, 0, 360*deg);
+  G4LogicalVolume *logic9 = new G4LogicalVolume (solid9,mDet, "logic9");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,320*mm),logic9, "Detector1", logicWell, false, 0);
+  logic9->SetVisAttributes(new G4VisAttributes(G4Colour::Yellow()));
+ 
+  // 10: cylinder h=100 r=15 R=18 
+  G4Tubs *solid10 = new G4Tubs ("C10", 15*mm, 18*mm, 50*mm, 0, 360*deg);
+  G4LogicalVolume *logic10 = new G4LogicalVolume (solid10,mAluminium, "logic10");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,310*mm),logic10, "phys10", logicWell, false, 0);
+  logic10->SetVisAttributes(new G4VisAttributes(G4Colour::Green()));
+ 
+  // 11: cylinder h=64 r=18 R=29 
+  G4Tubs *solid11 = new G4Tubs ("C11", 18*mm, 29*mm, 32*mm, 0, 360*deg);
+  G4LogicalVolume *logic11 = new G4LogicalVolume (solid11, mPolyamide, "logic11");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,348*mm),logic11, "phys11", logicWell, false, 0);
+  logic11->SetVisAttributes(new G4VisAttributes(G4Colour::Magenta()));
+ 
+  // 12: cylinder h=118 r=0 R=29 
+  G4Tubs *solid12 = new G4Tubs ("C12", 0*mm, 29*mm, 59*mm, 0, 360*deg);
+  G4LogicalVolume *logic12 = new G4LogicalVolume (solid12, mPolyamide, "logic12");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,439*mm),logic12, "phys12", logicWell, false, 0);
+  logic12->SetVisAttributes(new G4VisAttributes(G4Colour::Magenta()));
+ 
+  // 13: Cadmium(?) cylinder h=1 r=0 R=26 
+  G4Tubs *solid13 = new G4Tubs ("C13", 0*mm, 25.8*mm, 0.5*mm, 0, 360*deg);
+  G4LogicalVolume *logic13 = new G4LogicalVolume (solid13, mCd, "logic13");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,498.5*mm),logic13, "phys13", logicWell, false, 0);
+  logic13->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
+ 
+  // 14: cylinder h=16 r=26 R=29 
+  G4Tubs *solid14 = new G4Tubs ("C14", 25.8*mm, 29*mm, 8*mm, 0, 360*deg);
+  G4LogicalVolume *logic14 = new G4LogicalVolume (solid14, mAluminium, "logic14");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,506*mm),logic14, "phys14", logicWell, false, 0);
+  logic14->SetVisAttributes(new G4VisAttributes(G4Colour::Green()));
+ 
+  // 15: Cadmium cylinder h=15 r=25 R=26 
+  G4Tubs *solid15 = new G4Tubs ("C15", 25*mm, 25.8*mm, 7.5*mm, 0, 360*deg);
+  G4LogicalVolume *logic15 = new G4LogicalVolume (solid15, mCd, "logic15");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,506.5*mm),logic15, "phys15", logicWell, false, 0);
+  logic15->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
+ 
+  // 16: cylinder h=323 r=0 R=25  Detector2 
+  G4Tubs *solid16 = new G4Tubs ("C16", 0*mm, 25*mm, 161.5*mm, 0, 360*deg);
+  G4LogicalVolume *logic16 = new G4LogicalVolume (solid16, mDet, "logic16");
+  new G4PVPlacement(0,G4ThreeVector(0,shifty,660.5*mm),logic16, "Detector2", logicWell, false, 0);
+  logic16->SetVisAttributes(new G4VisAttributes(G4Colour::Yellow()));
+ 
+  He3_SD *detector = new He3_SD("Detector");
+  G4SDManager* SDman = G4SDManager::GetSDMpointer();
+  SDman->AddNewDetector(detector);
+  logic9->SetSensitiveDetector(detector);
+  logic16->SetSensitiveDetector(detector);
+
+  return pWorld;
+}

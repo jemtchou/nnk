@@ -1,0 +1,11 @@
+# Macro file for the initialization phase of example B1
+# when running in interactive mode without visualization
+#
+# Set some default verbose
+/carotage/geometry WaterTank
+/control/verbose 0
+/control/saveHistory
+/run/verbose 0
+/tracking/verbose 0
+/process/verbose 0
+/run/beamOn 10000
