@@ -237,7 +237,7 @@ if (geometry == 6) {
    G4Material* mCd = new G4Material("mCd", 48, 112 * g / mole, 8.65*g / cm3);  //Cd
       
  // He3 counter
-  G4Isotope* izHe3 = new G4Isotope("izHe3",2, 3, 3);
+  G4Isotope* izHe3 = new G4Isotope("izHe3",2, 3);
   G4Element* elHe3= new G4Element("He3", "He3",1);
   elHe3->AddIsotope(izHe3, 100*perCent);
   G4double density = 1 *mg/cm3;
