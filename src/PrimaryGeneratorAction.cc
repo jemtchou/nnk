@@ -11,6 +11,8 @@
 #include "Randomize.hh"
 #include "RootWriter.hh"
 
+#include "G4PhysicalVolumeStore.hh"
+
 using namespace CLHEP;
 
 const int CountK= 1 ;
@@ -46,13 +48,14 @@ PrimaryGeneratorAction* PrimaryGeneratorAction::Instance()
 }      
 
 
-PrimaryGeneratorAction::PrimaryGeneratorAction(std::string src)
+PrimaryGeneratorAction::PrimaryGeneratorAction(std::string src, int geo)
 : G4VUserPrimaryGeneratorAction(),
   fParticleGun(0)
 {
   RootWriter* rw = RootWriter::GetPointer();
   rw->h1[0] = new TH1F("gen_spectrum", "Generator spectrum [MeV]", 100, 0., 15.);
 
+  geom = geo;
   type=src;
   G4int n_particle = 1;
   fParticleGun  = new G4ParticleGun(n_particle);
@@ -70,6 +73,31 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
+/*
+  G4ThreeVector trans;
+  G4VPhysicalVolume* vol = G4PhysicalVolumeStore::GetInstance()->GetVolume("Source");
+  if(vol != 0)
+  {
+    trans = vol->GetObjectTranslation();
+    G4cout << "Source Translation " << trans << G4endl;
+
+//G4AffineTransform tf(fHistory.GetTopTransform().Inverse());
+//  return tf.NetTranslation();
+  }
+  else
+  {
+    G4cout << "No Source is found" << G4endl;
+  }
+*/
+  double shifty1 = 0 * mm;
+  if (geom >3 ) {
+        shifty1 = 9.5 * mm;
+  }
+
+  G4ThreeVector pos(0., shifty1, 499*mm);
+
+//  G4cout << "Source Translation " << pos << G4endl;
+
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
   G4ParticleDefinition* particle = particleTable->FindParticle("neutron");
 
@@ -79,12 +107,14 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   if(type=="mono14")
     {
       energy = 14*MeV;
-      fParticleGun->SetParticlePosition(G4ThreeVector(0,0,309*mm));
+//      fParticleGun->SetParticlePosition(G4ThreeVector(0,0,309*mm));
+      fParticleGun->SetParticlePosition(pos);
     }
   else if(type=="PuBe")
     {
       energy = PuBe()*MeV;
-      fParticleGun->SetParticlePosition(G4ThreeVector(0,69.9*mm,0*mm));	
+//      fParticleGun->SetParticlePosition(G4ThreeVector(0,69.9*mm,0*mm));	
+      fParticleGun->SetParticlePosition(pos);
     }
   
   fParticleGun->SetParticleEnergy(energy);

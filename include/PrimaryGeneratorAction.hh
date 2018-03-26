@@ -11,7 +11,7 @@ class G4Event;
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
 public:
-  PrimaryGeneratorAction(std::string src);    
+  PrimaryGeneratorAction(std::string src, int geo);    
   virtual ~PrimaryGeneratorAction();
   
   // static access method
@@ -34,6 +34,7 @@ private:
   double particleenergy;
   G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
   G4String type;
+  int geom;
 };
 
 #endif

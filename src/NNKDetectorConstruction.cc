@@ -248,190 +248,190 @@ if (geometry == 6) {
  
 
 //Geometry
-// Мировой объем 
+// РњРёСЂРѕРІРѕР№ РѕР±СЉРµРј 
   G4Tubs* sWorld = new G4Tubs("World", 0, 1001*mm, 1001*mm, 0, 360.*deg);
   lWorld = new G4LogicalVolume( sWorld, mVacuum, "World", 0, 0, 0);
   G4PVPlacement* pWorld = new G4PVPlacement(0, G4ThreeVector(), lWorld, "World",
 					    0, false, 0);      
 
-  //Порода C2 H=2000.0 R=1000.0 r=108.0
+  //РџРѕСЂРѕРґР° C2 H=2000.0 R=1000.0 r=108.0
   G4Tubs *solid2 = new G4Tubs("C2", 62.0 * mm, 1000.0 * mm, 1000.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic2 = new G4LogicalVolume(solid2, mRock, "logic2");
   new G4PVPlacement(0, G4ThreeVector(), logic2, "phys2", lWorld, false, 0);
   logic2->SetVisAttributes(new G4VisAttributes(G4Colour::Yellow()));
-  //Скважина C3 H=2000.0 R=62.0 r=0.0
+  //РЎРєРІР°Р¶РёРЅР° C3 H=2000.0 R=62.0 r=0.0
   G4Tubs *solid3 = new G4Tubs("C3", 0.0 * mm, 62.0 * mm, 1000.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic3 = new G4LogicalVolume(solid3, mWell, "logic3");
   new G4PVPlacement(0, G4ThreeVector(), logic3, "phys3", lWorld, false, 0);
   logic3->SetVisAttributes(new G4VisAttributes(G4Colour::Blue()));
 
-  //УБТ C4 r=28.5 R=52.5 H=2000.0 # УБТ
+  //РЈР‘Рў C4 r=28.5 R=52.5 H=2000.0 # РЈР‘Рў
   G4Tubs *solid4 = new G4Tubs("C4", 28.5 * mm, 52.5 * mm, 1000.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic4 = new G4LogicalVolume(solid4, mSLW3, "logic4");
   new G4PVPlacement(0, G4ThreeVector(0, shifty1, 0.0*mm), logic4, "phys4", logic3, false, 0);
   logic4->SetVisAttributes(new G4VisAttributes(G4Colour::Grey()));
-  //объем прибора C5 r=0.0 R=24.0 H=1400.0 # объем прибора
+  //РѕР±СЉРµРј РїСЂРёР±РѕСЂР° C5 r=0.0 R=24.0 H=1400.0 # РѕР±СЉРµРј РїСЂРёР±РѕСЂР°
   G4Tubs *solid5 = new G4Tubs("C5", 0.0 * mm, 24.0 * mm, 700.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic5 = new G4LogicalVolume(solid5, mAir, "logic5");
   new G4PVPlacement(0, G4ThreeVector(0, shifty1, 0.0*mm), logic5, "phys5", logic3, false, 0);
   logic5->SetVisAttributes(new G4VisAttributes(G4Colour::Green()));
 
-  //Обтекатель C6 r=0.0 R=20.0 H=162.0 # Обтекатель
+  //РћР±С‚РµРєР°С‚РµР»СЊ C6 r=0.0 R=20.0 H=162.0 # РћР±С‚РµРєР°С‚РµР»СЊ
   G4Tubs *solid6 = new G4Tubs("C6", 0.0 * mm, 20.0 * mm, 81.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic6 = new G4LogicalVolume(solid6, mBronze, "logic6");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 619.0*mm), logic6, "phys6", logic5, false, 0);
   logic6->SetVisAttributes(new G4VisAttributes(G4Colour::Cyan()));
-  //Наконечник прибора C7 r=20.0 R=24.0 H=62.0 # Наконечник прибора
+  //РќР°РєРѕРЅРµС‡РЅРёРє РїСЂРёР±РѕСЂР° C7 r=20.0 R=24.0 H=62.0 # РќР°РєРѕРЅРµС‡РЅРёРє РїСЂРёР±РѕСЂР°
   G4Tubs *solid7 = new G4Tubs("C7", 20.0 * mm, 24.0 * mm, 31.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic7 = new G4LogicalVolume(solid7, mTitan, "logic7");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 569.0*mm), logic7, "phys7", logic5, false, 0);
   logic7->SetVisAttributes(new G4VisAttributes(G4Colour::Black()));
-  //Наконечник прибора С8 r=14.0 R=24.0 H=50.0 # Наконечник прибора
+  //РќР°РєРѕРЅРµС‡РЅРёРє РїСЂРёР±РѕСЂР° РЎ8 r=14.0 R=24.0 H=50.0 # РќР°РєРѕРЅРµС‡РЅРёРє РїСЂРёР±РѕСЂР°
   G4Tubs *solid8 = new G4Tubs("C8", 14.0 * mm, 24.0 * mm, 25.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic8 = new G4LogicalVolume(solid8, mTitan, "logic8");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 513.0*mm), logic8, "phys8", logic5, false, 0);
   logic8->SetVisAttributes(new G4VisAttributes(G4Colour::Black()));
-  //Бронзовый корпус источника C9 r=0.0 R=14.0 H=28.0 # Бронзовый корпус источника
+  //Р‘СЂРѕРЅР·РѕРІС‹Р№ РєРѕСЂРїСѓСЃ РёСЃС‚РѕС‡РЅРёРєР° C9 r=0.0 R=14.0 H=28.0 # Р‘СЂРѕРЅР·РѕРІС‹Р№ РєРѕСЂРїСѓСЃ РёСЃС‚РѕС‡РЅРёРєР°
   G4Tubs *solid9 = new G4Tubs("C9", 0.0 * mm, 14.0 * mm, 14.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic9 = new G4LogicalVolume(solid9, mBronze, "logic9");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 524.0*mm), logic9, "phys9", logic5, false, 0);
   logic9->SetVisAttributes(new G4VisAttributes(G4Colour::Cyan()));
-  //Бронзовый корпус источника С10 r=9.0 R=14.0 H=22.0 # Бронзовый корпус источника
+  //Р‘СЂРѕРЅР·РѕРІС‹Р№ РєРѕСЂРїСѓСЃ РёСЃС‚РѕС‡РЅРёРєР° РЎ10 r=9.0 R=14.0 H=22.0 # Р‘СЂРѕРЅР·РѕРІС‹Р№ РєРѕСЂРїСѓСЃ РёСЃС‚РѕС‡РЅРёРєР°
   G4Tubs *solid10 = new G4Tubs("C10", 9.0 * mm, 14.0 * mm, 11.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic10 = new G4LogicalVolume(solid10, mBronze, "logic10");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 499.0*mm), logic10, "phys10", logic5, false, 0);
   logic10->SetVisAttributes(new G4VisAttributes(G4Colour::Cyan()));
-  //Корпус источника C11 r=0.0 R=9.0 H=6.0 # Корпус источника
+  //РљРѕСЂРїСѓСЃ РёСЃС‚РѕС‡РЅРёРєР° C11 r=0.0 R=9.0 H=6.0 # РљРѕСЂРїСѓСЃ РёСЃС‚РѕС‡РЅРёРєР°
   G4Tubs *solid11 = new G4Tubs("C11", 0.0 * mm, 9.0 * mm, 3.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic11 = new G4LogicalVolume(solid11, mSteel, "logic11");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 507.0*mm), logic11, "phys11", logic5, false, 0);
   logic11->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
-  //Корпус источника C12 r=5.0 R=9.0 H=10.0 # Корпус источника
+  //РљРѕСЂРїСѓСЃ РёСЃС‚РѕС‡РЅРёРєР° C12 r=5.0 R=9.0 H=10.0 # РљРѕСЂРїСѓСЃ РёСЃС‚РѕС‡РЅРёРєР°
   G4Tubs *solid12 = new G4Tubs("C12", 5.0 * mm, 9.0 * mm, 5.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic12 = new G4LogicalVolume(solid12, mSteel, "logic12");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 499.0*mm), logic12, "phys12", logic5, false, 0);
   logic12->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
-  //Корпус источника C13 r=0.0 R=9.0 H=6.0 # Корпус источника
+  //РљРѕСЂРїСѓСЃ РёСЃС‚РѕС‡РЅРёРєР° C13 r=0.0 R=9.0 H=6.0 # РљРѕСЂРїСѓСЃ РёСЃС‚РѕС‡РЅРёРєР°
   G4Tubs *solid13 = new G4Tubs("C13", 0.0 * mm, 9.0 * mm, 3.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic13 = new G4LogicalVolume(solid13, mSteel, "logic13");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 491.0*mm), logic13, "phys13", logic5, false, 0);
   logic13->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
-  //Источник С14 r=0.0 R=5.0 H=10.0 # Источник
+  //РСЃС‚РѕС‡РЅРёРє РЎ14 r=0.0 R=5.0 H=10.0 # РСЃС‚РѕС‡РЅРёРє
   G4Tubs *solid14 = new G4Tubs("C14", 0.0 * mm, 5.0 * mm, 5.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic14 = new G4LogicalVolume(solid14, mAluminium, "logic14");
-  new G4PVPlacement(0, G4ThreeVector(0, 0, 499.0*mm), logic14, "phys14", logic5, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0, 0, 499.0*mm), logic14, "Source", logic5, false, 0);
   logic14->SetVisAttributes(new G4VisAttributes(G4Colour::White()));
-  //Наконечник прибора C15 r=0.0 R=24.0 H=25.0 # Наконечник прибора
+  //РќР°РєРѕРЅРµС‡РЅРёРє РїСЂРёР±РѕСЂР° C15 r=0.0 R=24.0 H=25.0 # РќР°РєРѕРЅРµС‡РЅРёРє РїСЂРёР±РѕСЂР°
   G4Tubs *solid15 = new G4Tubs("C15", 0.0 * mm, 24.0 * mm, 12.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic15 = new G4LogicalVolume(solid15, mTitan, "logic15");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 475.5*mm), logic15, "phys15", logic5, false, 0);
   logic15->SetVisAttributes(new G4VisAttributes(G4Colour::Black()));
-  //Корпус прибора С16 r=19.75 R=24.0 H=822.0 # Корпус прибора
+  //РљРѕСЂРїСѓСЃ РїСЂРёР±РѕСЂР° РЎ16 r=19.75 R=24.0 H=822.0 # РљРѕСЂРїСѓСЃ РїСЂРёР±РѕСЂР°
   G4Tubs *solid16 = new G4Tubs("C16", 19.75 * mm, 24.0 * mm, 411.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic16 = new G4LogicalVolume(solid16, mTitan0, "logic16");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 52.0*mm), logic16, "phys16", logic5, false, 0);
   logic16->SetVisAttributes(new G4VisAttributes(G4Colour::Magenta()));
-  //Наконечник прибора C17 r=0.0 R=19.75 H=44.0 # Наконечник прибора
+  //РќР°РєРѕРЅРµС‡РЅРёРє РїСЂРёР±РѕСЂР° C17 r=0.0 R=19.75 H=44.0 # РќР°РєРѕРЅРµС‡РЅРёРє РїСЂРёР±РѕСЂР°
   G4Tubs *solid17 = new G4Tubs("C17", 0.0 * mm, 19.75 * mm, 22.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic17 = new G4LogicalVolume(solid17, mTitan, "logic17");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 441.0*mm), logic17, "phys17", logic5, false, 0);
   logic17->SetVisAttributes(new G4VisAttributes(G4Colour::Black()));
-  //Наконечник прибора C18 r=9.25 R=19.75 H=18.0 # Наконечник прибора
+  //РќР°РєРѕРЅРµС‡РЅРёРє РїСЂРёР±РѕСЂР° C18 r=9.25 R=19.75 H=18.0 # РќР°РєРѕРЅРµС‡РЅРёРє РїСЂРёР±РѕСЂР°
   G4Tubs *solid18 = new G4Tubs("C18", 9.25 * mm, 19.75 * mm, 9.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic18 = new G4LogicalVolume(solid18, mTitan, "logic18");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 410.0*mm), logic18, "phys18", logic5, false, 0);
   logic18->SetVisAttributes(new G4VisAttributes(G4Colour::Black()));
-  //Экран C19 r=0.0 R=9.25 H=18.0 # Экран
+  //Р­РєСЂР°РЅ C19 r=0.0 R=9.25 H=18.0 # Р­РєСЂР°РЅ
   G4Tubs *solid19 = new G4Tubs("C19", 0.0 * mm, 9.25 * mm, 9.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic19 = new G4LogicalVolume(solid19, mPoly, "logic19");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 410.0*mm), logic19, "phys19", logic5, false, 0);
   logic19->SetVisAttributes(new G4VisAttributes(G4Colour::Brown()));
-  //Экран С20 r=0.0 R=19.75 H=98.0 # Экран
+  //Р­РєСЂР°РЅ РЎ20 r=0.0 R=19.75 H=98.0 # Р­РєСЂР°РЅ
   G4Tubs *solid20 = new G4Tubs("C20", 0.0 * mm, 19.75 * mm, 49.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic20 = new G4LogicalVolume(solid20, mPoly, "logic20");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 352.0*mm), logic20, "phys20", logic5, false, 0);
   logic20->SetVisAttributes(new G4VisAttributes(G4Colour::Brown()));
-  //Гайка С21 r=0.0 R=19.75 H=36.0 # Гайка
+  //Р“Р°Р№РєР° РЎ21 r=0.0 R=19.75 H=36.0 # Р“Р°Р№РєР°
   G4Tubs *solid21 = new G4Tubs("C21", 0.0 * mm, 19.75 * mm, 18.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic21 = new G4LogicalVolume(solid21, mSteel, "logic21");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 285.0*mm), logic21, "phys21", logic5, false, 0);
   logic21->SetVisAttributes(new G4VisAttributes(G4Colour::Magenta()));
-  //Кожух С22 r=17.0 R=19.0 H=389.0 # Кожух
+  //РљРѕР¶СѓС… РЎ22 r=17.0 R=19.0 H=389.0 # РљРѕР¶СѓС…
   G4Tubs *solid22 = new G4Tubs("C22", 17.0 * mm, 19.0 * mm, 194.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic22 = new G4LogicalVolume(solid22, mSteel0, "logic22");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 72.5*mm), logic22, "phys22", logic5, false, 0);
   logic22->SetVisAttributes(new G4VisAttributes(G4Colour::Blue()));
-  //Амортизатор C23 r=8.5 R=16.5 H=7.0 # Амортизатор
+  //РђРјРѕСЂС‚РёР·Р°С‚РѕСЂ C23 r=8.5 R=16.5 H=7.0 # РђРјРѕСЂС‚РёР·Р°С‚РѕСЂ
   G4Tubs *solid23 = new G4Tubs("C23", 8.5 * mm, 16.5 * mm, 3.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic23 = new G4LogicalVolume(solid23, mRubber, "logic23");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 263.5*mm), logic23, "phys23", logic5, false, 0);
   logic23->SetVisAttributes(new G4VisAttributes(G4Colour::Green()));
-  //Изолятор С24 r=0.0 R=17.0 H=10.0 # Изолятор
+  //РР·РѕР»СЏС‚РѕСЂ РЎ24 r=0.0 R=17.0 H=10.0 # РР·РѕР»СЏС‚РѕСЂ
   G4Tubs *solid24 = new G4Tubs("C24", 0.0 * mm, 17.0 * mm, 5.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic24 = new G4LogicalVolume(solid24, mPoly, "logic24");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 255.0*mm), logic24, "phys24", logic5, false, 0);
   logic24->SetVisAttributes(new G4VisAttributes(G4Colour::Brown()));
-  //Детектор 1 C25 r=0.0 R=16.0 H=123.0 # Детектор 1
+  //Р”РµС‚РµРєС‚РѕСЂ 1 C25 r=0.0 R=16.0 H=123.0 # Р”РµС‚РµРєС‚РѕСЂ 1
   G4Tubs *solid25 = new G4Tubs("C25", 0.0 * mm, 16.0 * mm, 61.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic25 = new G4LogicalVolume(solid25, mDet, "logic25");
-  new G4PVPlacement(0, G4ThreeVector(0, 0, 188.5*mm), logic25, "phys25", logic5, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0, 0, 188.5*mm), logic25, "Detector1", logic5, false, 0);
   logic25->SetVisAttributes(new G4VisAttributes(G4Colour::Yellow()));
-  //Кадмиевый экран 1 C26 r=16.0 R=16.5 H=15.0 # Кадмиевый экран 1
+  //РљР°РґРјРёРµРІС‹Р№ СЌРєСЂР°РЅ 1 C26 r=16.0 R=16.5 H=15.0 # РљР°РґРјРёРµРІС‹Р№ СЌРєСЂР°РЅ 1
   G4Tubs *solid26 = new G4Tubs("C26", 16.0 * mm, 16.5 * mm, 7.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic26 = new G4LogicalVolume(solid26, mCd, "logic26");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 242.5*mm), logic26, "phys26", logic5, false, 0);
   logic26->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
-  //Кадмиевый экран 2 C27 r=16.0 R=16.5 H=15.0 # Кадмиевый экран 2
+  //РљР°РґРјРёРµРІС‹Р№ СЌРєСЂР°РЅ 2 C27 r=16.0 R=16.5 H=15.0 # РљР°РґРјРёРµРІС‹Р№ СЌРєСЂР°РЅ 2
   G4Tubs *solid27 = new G4Tubs("C27", 16.0 * mm, 16.5 * mm, 7.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic27 = new G4LogicalVolume(solid27, mCd, "logic27");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 134.5*mm), logic27, "phys27", logic5, false, 0);
   logic27->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
-  //Колпачок C28 r=0.0 R=17.0 H=34.0 # Колпачок
+  //РљРѕР»РїР°С‡РѕРє C28 r=0.0 R=17.0 H=34.0 # РљРѕР»РїР°С‡РѕРє
   G4Tubs *solid28 = new G4Tubs("C28", 0.0 * mm, 17.0 * mm, 17.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic28 = new G4LogicalVolume(solid28, mPoly, "logic28");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 110.0*mm), logic28, "phys28", logic5, false, 0);
   logic28->SetVisAttributes(new G4VisAttributes(G4Colour::Brown()));
-  //Соединитель С29 r=0.0 R=17.0 H=29.0 # Соединитель
+  //РЎРѕРµРґРёРЅРёС‚РµР»СЊ РЎ29 r=0.0 R=17.0 H=29.0 # РЎРѕРµРґРёРЅРёС‚РµР»СЊ
   G4Tubs *solid29 = new G4Tubs("C29", 0.0 * mm, 17.0 * mm, 14.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic29 = new G4LogicalVolume(solid29, mSteel, "logic29");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 78.5*mm), logic29, "phys29", logic5, false, 0);
   logic29->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
-  //Колпачок С30 r=0.0 R=17.0 H=24.0 # Колпачок
+  //РљРѕР»РїР°С‡РѕРє РЎ30 r=0.0 R=17.0 H=24.0 # РљРѕР»РїР°С‡РѕРє
   G4Tubs *solid30 = new G4Tubs("C30", 0.0 * mm, 17.0 * mm, 12.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic30 = new G4LogicalVolume(solid30, mPoly, "logic30");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 52.0*mm), logic30, "phys30", logic5, false, 0);
   logic30->SetVisAttributes(new G4VisAttributes(G4Colour::Brown()));
-  //Детектор 2 C31 r=0.0 R=16.0 H=123.0 # Детектор 2
+  //Р”РµС‚РµРєС‚РѕСЂ 2 C31 r=0.0 R=16.0 H=123.0 # Р”РµС‚РµРєС‚РѕСЂ 2
   G4Tubs *solid31 = new G4Tubs("C31", 0.0 * mm, 16.0 * mm, 61.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic31 = new G4LogicalVolume(solid31, mDet, "logic31");
-  new G4PVPlacement(0, G4ThreeVector(0, 0, -21.5*mm), logic31, "phys31", logic5, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0, 0, -21.5*mm), logic31, "Detector2", logic5, false, 0);
   logic31->SetVisAttributes(new G4VisAttributes(G4Colour::Yellow()));
-  //Кадмиевый экран 1 C32 r=16.0 R=16.5 H=15.0 # Кадмиевый экран 1
+  //РљР°РґРјРёРµРІС‹Р№ СЌРєСЂР°РЅ 1 C32 r=16.0 R=16.5 H=15.0 # РљР°РґРјРёРµРІС‹Р№ СЌРєСЂР°РЅ 1
   G4Tubs *solid32 = new G4Tubs("C32", 16.0 * mm, 16.5 * mm, 7.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic32 = new G4LogicalVolume(solid32, mCd, "logic32");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 32.5*mm), logic32, "phys32", logic5, false, 0);
   logic32->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
-  //Кадмиевый экран 2 C33 r=16.0 R=16.5 H=15.0 # Кадмиевый экран 2
+  //РљР°РґРјРёРµРІС‹Р№ СЌРєСЂР°РЅ 2 C33 r=16.0 R=16.5 H=15.0 # РљР°РґРјРёРµРІС‹Р№ СЌРєСЂР°РЅ 2
   G4Tubs *solid33 = new G4Tubs("C33", 16.0 * mm, 16.5 * mm, 7.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic33 = new G4LogicalVolume(solid33, mCd, "logic33");
   new G4PVPlacement(0, G4ThreeVector(0, 0, -75.5*mm), logic33, "phys33", logic5, false, 0);
   logic33->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
-  //Колпачок C34 r=0.0 R=17.0 H=32.0 # Колпачок
+  //РљРѕР»РїР°С‡РѕРє C34 r=0.0 R=17.0 H=32.0 # РљРѕР»РїР°С‡РѕРє
   G4Tubs *solid34 = new G4Tubs("C34", 0.0 * mm, 17.0 * mm, 16.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic34 = new G4LogicalVolume(solid34, mPoly, "logic34");
   new G4PVPlacement(0, G4ThreeVector(0, 0, -99.0*mm), logic34, "phys34", logic5, false, 0);
   logic34->SetVisAttributes(new G4VisAttributes(G4Colour::Brown()));
-  //Амортизатор C35 r=8.5 R=16.5 H=7.0 # Амортизатор
+  //РђРјРѕСЂС‚РёР·Р°С‚РѕСЂ C35 r=8.5 R=16.5 H=7.0 # РђРјРѕСЂС‚РёР·Р°С‚РѕСЂ
   G4Tubs *solid35 = new G4Tubs("C35", 8.5 * mm, 16.5 * mm, 3.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic35 = new G4LogicalVolume(solid35, mRubber, "logic35");
   new G4PVPlacement(0, G4ThreeVector(0, 0, -118.5*mm), logic35, "phys35", logic5, false, 0);
   logic35->SetVisAttributes(new G4VisAttributes(G4Colour::Green()));
-  //Гайка C36 r=0.0 R=19.0 H=125.0 # Гайка
+  //Р“Р°Р№РєР° C36 r=0.0 R=19.0 H=125.0 # Р“Р°Р№РєР°
   G4Tubs *solid36 = new G4Tubs("C36", 0.0 * mm, 19.0 * mm, 62.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic36 = new G4LogicalVolume(solid36, mSteel, "logic36");
   new G4PVPlacement(0, G4ThreeVector(0, 0, -184.5*mm), logic36, "phys36", logic5, false, 0);
   logic36->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
-  //Заглушка C37 r=0.0 R=19.0 H=125.0 # Заглушка
+  //Р—Р°РіР»СѓС€РєР° C37 r=0.0 R=19.0 H=125.0 # Р—Р°РіР»СѓС€РєР°
   G4Tubs *solid37 = new G4Tubs("C37", 0.0 * mm, 19.0 * mm, 62.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic37 = new G4LogicalVolume(solid37, mSteel, "logic37");
   new G4PVPlacement(0, G4ThreeVector(0, 0, -309.5*mm), logic37, "phys37", logic5, false, 0);

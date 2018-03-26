@@ -103,7 +103,7 @@ void B1TrackingAction::PostUserTrackingAction(const G4Track* track) {
        if(pdgcode == 1000010030) // He3(n,p)H3, tritium detected
          {
            mHit = 1;
-//          G4cout << "FIREDD" << G4endl;
+          G4cout << "FIREDD" << G4endl;
 	 }
 
     }
