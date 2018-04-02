@@ -49,6 +49,8 @@ int main(int argc,char** argv)
   // Physics list
   G4VModularPhysicsList* physicsList = new Earth;
   physicsList->SetVerboseLevel(1);
+  physicsList->SetDefaultCutValue(10*CLHEP::mm);
+  physicsList->SetCuts();
   runManager->SetUserInitialization(physicsList);
 
   // Detector construction

@@ -44,7 +44,7 @@ G4VPhysicalVolume* NNKDetectorConstruction::Construct()
   // --- materials ---
 
   G4NistManager* man = G4NistManager::Instance();
-  H=man->FindOrBuildElement("H");
+  //H=man->FindOrBuildElement("H");
   B=man->FindOrBuildElement("B");
   C=man->FindOrBuildElement("C");
 
@@ -86,6 +86,8 @@ G4VPhysicalVolume* NNKDetectorConstruction::Construct()
   Sr = man->FindOrBuildElement("Sr");
   Zr = man->FindOrBuildElement("Zr");
   Sn = man->FindOrBuildElement("Sn");	
+
+  G4Element* H = new G4Element("TS_H_of_Water","H",1,1*g/mole);
 
   G4cout << "Geometry configuration " << geometry << G4endl;
 
