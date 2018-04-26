@@ -27,7 +27,7 @@ export G4NEUTRONHPDATA=/afs/jinr.ru/user/j/jemtchou/geant4/data/G4NDL4.5/
   cat ./init.mac >> run_%GEO%_%RUN%.log
 #  mv pos.csv pos_%RUN%.csv
   ls -l
-  scp fout.root jemtchou@lxpub03.jinr.ru:/scrc/u/jemtchou/fout_%GEO%_%RUN%.root
+  scp fout.csv jemtchou@lxpub03.jinr.ru:/scrc/u/jemtchou/fout_%GEO%_%RUN%.csv
   scp run_%GEO%_%RUN%.log jemtchou@lxpub03.jinr.ru:/scrc/u/jemtchou/
 #  scp pos_%RUN%.csv jemtchou@lxpub03.jinr.ru:/scrc/u/jemtchou
 EOF

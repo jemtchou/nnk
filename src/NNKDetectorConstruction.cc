@@ -384,7 +384,7 @@ if (geometry == 6) {
   //Детектор 1 C25 r=0.0 R=16.0 H=123.0 # Детектор 1
   G4Tubs *solid25 = new G4Tubs("C25", 0.0 * mm, 16.0 * mm, 61.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic25 = new G4LogicalVolume(solid25, mDet, "logic25");
-  new G4PVPlacement(0, G4ThreeVector(0, 0, 188.5*mm), logic25, "phys25", logic5, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0, 0, 188.5*mm), logic25, "Detector1", logic5, false, 0);
   logic25->SetVisAttributes(new G4VisAttributes(G4Colour::Yellow()));
 
   //Кадмиевый экран торец C26.1 r=0.0 R=17.0 H=0.5 # Детектор 1
@@ -421,7 +421,7 @@ if (geometry == 6) {
   //Детектор 2 C31 r=0.0 R=16.0 H=123.0 # Детектор 2
   G4Tubs *solid31 = new G4Tubs("C31", 0.0 * mm, 16.0 * mm, 61.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic31 = new G4LogicalVolume(solid31, mDet, "logic31");
-  new G4PVPlacement(0, G4ThreeVector(0, 0, -21.5*mm), logic31, "phys31", logic5, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0, 0, -21.5*mm), logic31, "Detector2", logic5, false, 0);
   logic31->SetVisAttributes(new G4VisAttributes(G4Colour::Yellow()));
 
   //Кадмиевый экран торец C32.1 r=0.0 R=17.0 H=0.5 # Детектор 2
