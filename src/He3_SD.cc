@@ -39,7 +39,7 @@ G4bool He3_SD::ProcessHits(G4Step* step,
   if(detname=="Detector1") detector = 1;
   if(detname=="Detector2") detector = 2;
 
-  G4cout << " HIT " << step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName() << " " << pdgcode << " " << energy << " " << time/ns << " " << step->GetTrack()->GetTrackID() << G4endl;
+//  G4cout << " HIT " << step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName() << " " << pdgcode << " " << energy << " " << time/ns << " " << step->GetTrack()->GetTrackID() << G4endl;
 
   // get volume of the current step
   G4LogicalVolume* prevolume
@@ -56,7 +56,7 @@ G4bool He3_SD::ProcessHits(G4Step* step,
  // G4int fired = false;
   if(pdgcode == 1000010030) // He3(n,p)H3, tritium detected
     {
-      G4cout << "DETECTOR FIRED" << G4endl;
+//      G4cout << "DETECTOR FIRED" << G4endl;
       fired = true;
     }
 

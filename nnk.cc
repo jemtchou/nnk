@@ -6,7 +6,7 @@
 #include "B1SteppingAction.hh"
 #include "B1TrackingAction.hh"
 
-#include "RootWriter.hh"
+//#include "RootWriter.hh"
 
 #include "G4GeometrySampler.hh"
 #include "G4RunManager.hh"
@@ -38,8 +38,8 @@ int main(int argc,char** argv)
   //
   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
   
-  RootWriter* rw = RootWriter::GetPointer();
-  rw->Initialize(true);
+ // RootWriter* rw = RootWriter::GetPointer();
+ // rw->Initialize(true);
 
   // Construct the default run manager
   //
@@ -121,7 +121,7 @@ int main(int argc,char** argv)
   // owned and deleted by the run manager, so they should not be deleted 
   // in the main() program !
   
-  rw->Finalize();
+ // rw->Finalize();
 
 #ifdef G4VIS_USE
   delete visManager;

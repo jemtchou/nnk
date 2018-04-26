@@ -17,14 +17,14 @@ else()
   find_package(Geant4 REQUIRED)
 endif()
 
-find_package(ROOT REQUIRED)
+##find_package(ROOT REQUIRED)
 
 #----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
 # Setup include directory for this project
 #
 include(${Geant4_USE_FILE})
-include_directories(${PROJECT_SOURCE_DIR}/include  ${ROOT_INCLUDE_DIRS})
+include_directories(${PROJECT_SOURCE_DIR}/include) #  ${ROOT_INCLUDE_DIRS})
 
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
@@ -37,7 +37,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(nnk.exe nnk.cc ${sources} ${headers})
-target_link_libraries(nnk.exe ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
+target_link_libraries(nnk.exe ${Geant4_LIBRARIES} ) #${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we

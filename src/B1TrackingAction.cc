@@ -14,8 +14,9 @@
 #include "G4ParticleTable.hh"
 #include "B1EventAction.hh"
 #include "B1RunAction.hh"
-#include "RootWriter.hh"
+//#include "RootWriter.hh"
 
+#include <fstream>
 #include <map>
 
 G4int mPDG;
@@ -31,9 +32,11 @@ G4int mTrackId;
 G4int mProc;
 G4int mWeight;
 
+std::ofstream fout;
+
 B1TrackingAction::B1TrackingAction()
 {
-   RootWriter* rw = RootWriter::GetPointer();
+  /* RootWriter* rw = RootWriter::GetPointer();
    rw->tree = new TTree("gm","gm");
    rw->tree->Branch("pdgcode",&mPDG,"pdgcode/I");
    rw->tree->Branch("energy",&mEnergy,"energy/D");
@@ -46,7 +49,10 @@ B1TrackingAction::B1TrackingAction()
    rw->tree->Branch("rmax",&mRmax,"rmax/D");
    rw->tree->Branch("trackId",&mTrackId,"trackId/I");
    rw->tree->Branch("process",&mProc,"process/I");
-   rw->tree->Branch("w",&mWeight,"w/D");
+   rw->tree->Branch("w",&mWeight,"w/D");*/
+
+   fout.open("fout.csv");
+   fout << "pdgcode,energy,time,detId,hit,xmax,ymax,zmax,rmax,trackId,process,w" << std::endl;
 
 }
 
@@ -103,10 +109,12 @@ void B1TrackingAction::PostUserTrackingAction(const G4Track* track) {
        if(pdgcode == 1000010030) // He3(n,p)H3, tritium detected
          {
            mHit = 1;
-          G4cout << "FIREDD" << G4endl;
+//          G4cout << "FIREDD" << G4endl;
 	 }
 
     }
     
-    RootWriter::GetPointer()->tree->Fill();
+   fout << mPDG<<","<<mEnergy<<","<<mTime<<","<<mDetId<<","<<mHit<<","<<mXmax<<","<<mYmax<<","<<mZmax<<","<<mRmax<<","<<mTrackId<<","<<mProc<<","<<mWeight<<std::endl;
+   fout.flush();
+//    RootWriter::GetPointer()->tree->Fill();
 }

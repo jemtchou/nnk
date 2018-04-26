@@ -9,7 +9,7 @@
 #include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
-#include "RootWriter.hh"
+//#include "RootWriter.hh"
 
 #include "G4PhysicalVolumeStore.hh"
 
@@ -52,8 +52,8 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(std::string src, int geo)
 : G4VUserPrimaryGeneratorAction(),
   fParticleGun(0)
 {
-  RootWriter* rw = RootWriter::GetPointer();
-  rw->h1[0] = new TH1F("gen_spectrum", "Generator spectrum [MeV]", 100, 0., 15.);
+//  RootWriter* rw = RootWriter::GetPointer();
+//  rw->h1[0] = new TH1F("gen_spectrum", "Generator spectrum [MeV]", 100, 0., 15.);
 
   geom = geo;
   type=src;
@@ -118,7 +118,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     }
   
   fParticleGun->SetParticleEnergy(energy);
-  RootWriter::GetPointer()->h1[0]->Fill(energy);
+  //RootWriter::GetPointer()->h1[0]->Fill(energy);
 
 
   G4double ctheta = G4UniformRand()*2-1; // 4pi

@@ -5,14 +5,14 @@
 #include "PrimaryGeneratorAction.hh"
 #include <time.h>
 
-#include "RootWriter.hh"
+//#include "RootWriter.hh"
 
 #include "G4RunManager.hh"
 #include "G4Event.hh"
 #include "G4Run.hh"
 
-#include "TH1F.h"
-#include "TTree.h"
+//#include "TH1F.h"
+//#include "TTree.h"
 
 B1EventAction* B1EventAction::fgInstance = 0;
 
@@ -27,7 +27,7 @@ B1EventAction::B1EventAction(int runNumber)
 { 
   fgInstance = this;
 
-  RootWriter* rw = RootWriter::GetPointer();
+//  RootWriter* rw = RootWriter::GetPointer();
 }
 
 B1EventAction::~B1EventAction()

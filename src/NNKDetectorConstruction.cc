@@ -87,7 +87,7 @@ G4VPhysicalVolume* NNKDetectorConstruction::Construct()
   Zr = man->FindOrBuildElement("Zr");
   Sn = man->FindOrBuildElement("Sn");	
 
-  G4Element* H = new G4Element("TS_H_of_Water","H",1,1*g/mole);
+  H = new G4Element("TS_H_of_Water","H",1,1*g/mole);
 
   G4cout << "Geometry configuration " << geometry << G4endl;
 
@@ -257,10 +257,17 @@ if (geometry == 6) {
 					    0, false, 0);      
 
   //Порода C2 H=2000.0 R=1000.0 r=108.0
-  G4Tubs *solid2 = new G4Tubs("C2", 62.0 * mm, 1000.0 * mm, 1000.0*mm, 0, 360 * deg);
+  G4Tubs *solid2 = new G4Tubs("C2", 63.5 * mm, 1000.0 * mm, 1000.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic2 = new G4LogicalVolume(solid2, mRock, "logic2");
   new G4PVPlacement(0, G4ThreeVector(), logic2, "phys2", lWorld, false, 0);
   logic2->SetVisAttributes(new G4VisAttributes(G4Colour::Yellow()));
+
+  //Обсадка  C2.1 H=2000.0 R=63.5 r=62.0
+  G4Tubs *solid2_1 = new G4Tubs("C2.1", 62.0 * mm, 63.5 * mm, 1000*mm, 0, 360 * deg);
+  G4LogicalVolume *logic2_1 = new G4LogicalVolume(solid2_1, mAluminium, "logic2.1");
+  new G4PVPlacement(0, G4ThreeVector(), logic2_1, "phys2.1", lWorld, false, 0);
+  logic2_1->SetVisAttributes(new G4VisAttributes(G4Colour::Green()));
+
   //Скважина C3 H=2000.0 R=62.0 r=0.0
   G4Tubs *solid3 = new G4Tubs("C3", 0.0 * mm, 62.0 * mm, 1000.0*mm, 0, 360 * deg);
   G4LogicalVolume *logic3 = new G4LogicalVolume(solid3, mWell, "logic3");
@@ -368,16 +375,24 @@ if (geometry == 6) {
   G4LogicalVolume *logic23 = new G4LogicalVolume(solid23, mRubber, "logic23");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 263.5*mm), logic23, "phys23", logic5, false, 0);
   logic23->SetVisAttributes(new G4VisAttributes(G4Colour::Green()));
+
   //Изолятор С24 r=0.0 R=17.0 H=10.0 # Изолятор
-  G4Tubs *solid24 = new G4Tubs("C24", 0.0 * mm, 17.0 * mm, 5.0*mm, 0, 360 * deg);
+  G4Tubs *solid24 = new G4Tubs("C24", 0.0 * mm, 17.0 * mm, 4.75*mm, 0, 360 * deg);
   G4LogicalVolume *logic24 = new G4LogicalVolume(solid24, mPoly, "logic24");
-  new G4PVPlacement(0, G4ThreeVector(0, 0, 255.0*mm), logic24, "phys24", logic5, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0, 0, 255.25*mm), logic24, "phys24", logic5, false, 0);
   logic24->SetVisAttributes(new G4VisAttributes(G4Colour::Brown()));
   //Детектор 1 C25 r=0.0 R=16.0 H=123.0 # Детектор 1
   G4Tubs *solid25 = new G4Tubs("C25", 0.0 * mm, 16.0 * mm, 61.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic25 = new G4LogicalVolume(solid25, mDet, "logic25");
-  new G4PVPlacement(0, G4ThreeVector(0, 0, 188.5*mm), logic25, "Detector1", logic5, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0, 0, 188.5*mm), logic25, "phys25", logic5, false, 0);
   logic25->SetVisAttributes(new G4VisAttributes(G4Colour::Yellow()));
+
+  //Кадмиевый экран торец C26.1 r=0.0 R=17.0 H=0.5 # Детектор 1
+  G4Tubs *solid26_1 = new G4Tubs("C26.1", 0.0 * mm, 17.0 * mm, 0.25*mm, 0, 360 * deg);
+  G4LogicalVolume *logic26_1 = new G4LogicalVolume(solid26_1, mPoly, "logic26.1");
+  new G4PVPlacement(0, G4ThreeVector(0, 0, 250.25*mm), logic26_1, "phys26.1", logic5, false, 0);
+  logic26_1->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
+
   //Кадмиевый экран 1 C26 r=16.0 R=16.5 H=15.0 # Кадмиевый экран 1
   G4Tubs *solid26 = new G4Tubs("C26", 16.0 * mm, 16.5 * mm, 7.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic26 = new G4LogicalVolume(solid26, mCd, "logic26");
@@ -398,16 +413,24 @@ if (geometry == 6) {
   G4LogicalVolume *logic29 = new G4LogicalVolume(solid29, mSteel, "logic29");
   new G4PVPlacement(0, G4ThreeVector(0, 0, 78.5*mm), logic29, "phys29", logic5, false, 0);
   logic29->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
-  //Колпачок С30 r=0.0 R=17.0 H=24.0 # Колпачок
-  G4Tubs *solid30 = new G4Tubs("C30", 0.0 * mm, 17.0 * mm, 12.0*mm, 0, 360 * deg);
+  //Колпачок С30 r=0.0 R=17.0 H=23.5 # Колпачок
+  G4Tubs *solid30 = new G4Tubs("C30", 0.0 * mm, 17.0 * mm, 11.75*mm, 0, 360 * deg);
   G4LogicalVolume *logic30 = new G4LogicalVolume(solid30, mPoly, "logic30");
-  new G4PVPlacement(0, G4ThreeVector(0, 0, 52.0*mm), logic30, "phys30", logic5, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0, 0, 52.25*mm), logic30, "phys30", logic5, false, 0);
   logic30->SetVisAttributes(new G4VisAttributes(G4Colour::Brown()));
   //Детектор 2 C31 r=0.0 R=16.0 H=123.0 # Детектор 2
   G4Tubs *solid31 = new G4Tubs("C31", 0.0 * mm, 16.0 * mm, 61.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic31 = new G4LogicalVolume(solid31, mDet, "logic31");
-  new G4PVPlacement(0, G4ThreeVector(0, 0, -21.5*mm), logic31, "Detector2", logic5, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0, 0, -21.5*mm), logic31, "phys31", logic5, false, 0);
   logic31->SetVisAttributes(new G4VisAttributes(G4Colour::Yellow()));
+
+  //Кадмиевый экран торец C32.1 r=0.0 R=17.0 H=0.5 # Детектор 2
+  G4Tubs *solid32_1 = new G4Tubs("C32.1", 0.0 * mm, 17.0 * mm, 0.25*mm, 0, 360 * deg);
+  G4LogicalVolume *logic32_1 = new G4LogicalVolume(solid32_1, mPoly, "logic32.1");
+  new G4PVPlacement(0, G4ThreeVector(0, 0, 40.25*mm), logic32_1, "phys32.1", logic5, false, 0);
+  logic32_1->SetVisAttributes(new G4VisAttributes(G4Colour::Red()));
+
+
   //Кадмиевый экран 1 C32 r=16.0 R=16.5 H=15.0 # Кадмиевый экран 1
   G4Tubs *solid32 = new G4Tubs("C32", 16.0 * mm, 16.5 * mm, 7.5*mm, 0, 360 * deg);
   G4LogicalVolume *logic32 = new G4LogicalVolume(solid32, mCd, "logic32");
