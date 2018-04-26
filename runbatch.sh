@@ -16,11 +16,12 @@ do
   source /afs/jinr.ru/user/j/jemtchou/geant_setup.sh
 #export G4NEUTRONHPDATA=/afs/.jinr.ru/geant4/geant4.9.6.p01/neutronhp/BROND-2.2
 #export G4NEUTRONHPDATA=/afs/.jinr.ru/geant4/geant4.9.6.p01/neutronhp/CENDL-31
-export G4NEUTRONHPDATA=/afs/jinr.ru/user/j/jemtchou/geant4/neutronhp/ENDF-VI8
+#export G4NEUTRONHPDATA=/afs/jinr.ru/user/j/jemtchou/geant4/neutronhp/ENDF-VI8
 #export G4NEUTRONHPDATA=/afs/.jinr.ru/geant4/geant4.9.6.p01/neutronhp/ENDF-VII0
 #export G4NEUTRONHPDATA=/afs/.jinr.ru/geant4/geant4.9.6.p01/neutronhp/JEFF30N
 #export G4NEUTRONHPDATA=/afs/.jinr.ru/geant4/geant4.9.6.p01/neutronhp/JENDL330
 #export G4NEUTRONHPDATA=/afs/.jinr.ru/geant4/geant4.9.6.p01/neutronhp/JENDL-4.0
+export G4NEUTRONHPDATA=/afs/jinr.ru/user/j/jemtchou/geant4/data/G4NDL4.5/
 
   /afs/jinr.ru/user/j/jemtchou/nnk/build/nnk.exe init.mac %GEO% %RUN% >& run_%GEO%_%RUN%.log
   cat ./init.mac >> run_%GEO%_%RUN%.log
